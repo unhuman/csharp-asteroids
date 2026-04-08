@@ -1,14 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Asteroids</RootNamespace>
     <AssemblyName>Asteroids</AssemblyName>
     <ApplicationIcon>App.ico</ApplicationIcon>
-    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Raylib-cs" Version="*" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Sounds\**\*">

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Drawing;
+using Raylib_cs;
+using RlColor = Raylib_cs.Color;
 
 namespace Asteroids
 {
@@ -24,8 +26,8 @@ namespace Asteroids
       public double GetVelocityY() {return velocityY;}
       public double GetRadians() {return radians;}
 
-		public ScreenObject(Point location)
-		{
+public ScreenObject(Point location)
+{
          radians = 180 * Math.PI / 180;
          points = new ArrayList();
          points.Capacity = 20;
@@ -36,7 +38,7 @@ namespace Asteroids
          currLoc = location;
 
          InitPoints();
-		}
+}
 
       public abstract void InitPoints();         
 
@@ -66,7 +68,7 @@ namespace Asteroids
       }
 
       protected void DrawPolyToSC(ArrayList alPoly, ScreenCanvas sc, int iPictX, int iPictY,
-                                  System.Drawing.Pen penColor)
+                                   RlColor penColor)
       {
          Point[] ptsPoly = new Point[alPoly.Count];
          for (int i = 0; i<alPoly.Count; i++)
@@ -93,35 +95,25 @@ namespace Asteroids
          return true;
       }
 
-      protected System.Drawing.Pen GetRandomFireColor()
+      protected RlColor GetRandomFireColor()
       {
-         System.Drawing.Pen penDraw;
-         switch (rndGen.Next(3))
+         return rndGen.Next(3) switch
          {
-            case 0:
-               penDraw = System.Drawing.Pens.Red;
-               break;
-            case 1:
-               penDraw = System.Drawing.Pens.Yellow;
-               break;
-            case 2:
-               penDraw = System.Drawing.Pens.Orange;
-               break;
-            default:
-               penDraw = System.Drawing.Pens.White;
-               break;
-         }
-         return penDraw;
+            0 => RlColor.Red,
+            1 => RlColor.Yellow,
+            2 => RlColor.Orange,
+            _ => RlColor.White,
+         };
       }
 
       public virtual void Draw(ScreenCanvas sc, int iPictX, int iPictY)
       {
-         DrawPolyToSC(pointsTransformed, sc, iPictX, iPictY, System.Drawing.Pens.White);
+         DrawPolyToSC(pointsTransformed, sc, iPictX, iPictY, RlColor.White);
       }
 
-      public virtual void Draw(ScreenCanvas sc, int iPictX, int iPictY, System.Drawing.Pen penColor)
+      public virtual void Draw(ScreenCanvas sc, int iPictX, int iPictY, RlColor penColor)
       {
          DrawPolyToSC(pointsTransformed, sc, iPictX, iPictY, penColor);         
       }
-	}
+}
 }

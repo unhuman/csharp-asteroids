@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Media;
+using Raylib_cs;
 
 namespace Asteroids
 {
@@ -17,10 +17,30 @@ namespace Asteroids
       public const double FPS = 60;
       public static Random rndGen = new Random();      
       private static List<string> alSounds;
+      private static Dictionary<string, Sound> soundCache = new();
 
       static public void InitSound()
       {
+         Raylib.InitAudioDevice();
          alSounds = new List<string>();
+      }
+
+      static public void CloseSound()
+      {
+         foreach (var sound in soundCache.Values)
+            Raylib.UnloadSound(sound);
+         soundCache.Clear();
+         Raylib.CloseAudioDevice();
+      }
+
+      private static Sound GetOrLoadSound(string fileName)
+      {
+         if (!soundCache.TryGetValue(fileName, out Sound sound))
+         {
+            sound = Raylib.LoadSound(SOUND_DIR + fileName);
+            soundCache[fileName] = sound;
+         }
+         return sound;
       }
 
       static public void PlayQueuedSounds()
@@ -36,15 +56,8 @@ namespace Asteroids
          // Play all the sounds
          foreach(string sSoundFile in alCopy)
          {
-            try
-            {
-               SoundPlayer player = new SoundPlayer(SOUND_DIR + sSoundFile);
-               player.Play();
-            }
-            catch
-            {
-               // Ignore sound playback failures
-            }
+            Sound sound = GetOrLoadSound(sSoundFile);
+            Raylib.PlaySound(sound);
          }
       }
 

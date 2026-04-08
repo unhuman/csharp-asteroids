@@ -1,6 +1,8 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
+using Raylib_cs;
+using RlColor = Raylib_cs.Color;
 
 namespace Asteroids
 {
@@ -9,22 +11,22 @@ namespace Asteroids
 	/// </summary>
 	public class ScreenCanvas
 	{
-      protected ArrayList points;
-      protected ArrayList pensLineColor;
-      protected ArrayList polygons;
-      protected ArrayList pensPolyColor;
+      protected List<Point> points;
+      protected List<RlColor> pensLineColor;
+      protected List<Point[]> polygons;
+      protected List<RlColor> pensPolyColor;
 
       private Point ptLast;
-      private System.Drawing.Pen penLast;
+      private RlColor penLast;
       private bool ptLastDefined;      
 
 		public ScreenCanvas()
 		{
          ptLastDefined = false;
-         points = new ArrayList();
-         pensLineColor = new ArrayList();
-         polygons = new ArrayList();
-         pensPolyColor = new ArrayList();
+         points = new List<Point>();
+         pensLineColor = new List<RlColor>();
+         polygons = new List<Point[]>();
+         pensPolyColor = new List<RlColor>();
 		}
 
       public void Clear()
@@ -35,31 +37,33 @@ namespace Asteroids
          pensPolyColor.Clear();
       }
 
-      public void Draw(System.Windows.Forms.PaintEventArgs e)
+      public void Draw()
       {
-         System.Drawing.Pen penDraw;
          if (points.Count % 2 == 0)
          {
-            Point pt1, pt2;
             int iLinePen = 0;
             for (int i=0; i<points.Count;)
             {
-               pt1 = (Point)points[i++];
-               pt2 = (Point)points[i++];
-               penDraw = (System.Drawing.Pen)pensLineColor[iLinePen++];
-               e.Graphics.DrawLine(penDraw, pt1, pt2);               
+               Point pt1 = points[i++];
+               Point pt2 = points[i++];
+               RlColor color = pensLineColor[iLinePen++];
+               Raylib.DrawLine(pt1.X, pt1.Y, pt2.X, pt2.Y, color);               
             }
             
             for (int i=0; i<polygons.Count;i++)
             {
-               Point[] poly = (Point[])polygons[i];
-               penDraw = (System.Drawing.Pen)pensPolyColor[i];
-               e.Graphics.DrawPolygon(penDraw, poly);
+               Point[] poly = polygons[i];
+               RlColor color = pensPolyColor[i];
+               for (int j = 0; j < poly.Length; j++)
+               {
+                  int next = (j + 1) % poly.Length;
+                  Raylib.DrawLine(poly[j].X, poly[j].Y, poly[next].X, poly[next].Y, color);
+               }
             }
          }
       }
 
-      public void AddLine(Point ptStart, Point ptEnd, System.Drawing.Pen penColor)
+      public void AddLine(Point ptStart, Point ptEnd, RlColor penColor)
       {
          points.Add(ptStart);
          points.Add(ptEnd);
@@ -71,7 +75,7 @@ namespace Asteroids
 
       public void AddLine(Point ptStart, Point ptEnd)
       {
-         AddLine(ptStart, ptEnd, System.Drawing.Pens.White);
+         AddLine(ptStart, ptEnd, RlColor.White);
       }
 
       public void AddLineTo(Point ptEnd)
@@ -85,7 +89,7 @@ namespace Asteroids
          }
       }
 
-      public void AddPolygon(Point[] ptArray, System.Drawing.Pen penColor)
+      public void AddPolygon(Point[] ptArray, RlColor penColor)
       {
          polygons.Add(ptArray);
          pensPolyColor.Add(penColor);
@@ -93,7 +97,7 @@ namespace Asteroids
 
       public void AddPolygon(Point[] ptArray)
       {
-         AddPolygon(ptArray, System.Drawing.Pens.White);
+         AddPolygon(ptArray, RlColor.White);
       }
 	}
 }
