@@ -2,10 +2,6 @@ using System;
 using System.Collections;
 using System.Drawing;
 
-using Microsoft.DirectX.DirectSound;
-using Microsoft.DirectX;
-using Buffer = Microsoft.DirectX.DirectSound.SecondaryBuffer;
-
 
 namespace Asteroids
 {

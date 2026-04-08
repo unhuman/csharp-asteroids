@@ -46,7 +46,7 @@ namespace Asteroids
 			//
 			InitializeComponent();
 
-         // Initialize DirectSound
+         // Initialize sound system
          CommonOps.InitSound();         
 
          // Set the drawing frames to be the window size
@@ -114,7 +114,8 @@ namespace Asteroids
          // 
          // frmAsteroids
          // 
-         this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(632, 453);
          this.Controls.Add(this.frame2);
          this.Controls.Add(this.frame1);
@@ -123,7 +124,7 @@ namespace Asteroids
          this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmAsteroids_KeyDown);
          this.Resize += new System.EventHandler(this.frmAsteroids_Resize);
          this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmAsteroids_KeyUp);
-         this.Closed += new System.EventHandler(this.frmAsteroids_Closed);
+         this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmAsteroids_Closed);
          this.Activated += new System.EventHandler(this.frmAsteroids_Activated);
          this.ResumeLayout(false);
 
@@ -139,7 +140,7 @@ namespace Asteroids
          Application.Run(new frmAsteroids());
 		}
 
-      private void frmAsteroids_Closed(object sender, System.EventArgs e)
+      private void frmAsteroids_Closed(object sender, System.Windows.Forms.FormClosedEventArgs e)
       {
          // Ensure game exits when close is hit
          gameStatus = Modes.EXIT;
