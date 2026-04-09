@@ -93,7 +93,7 @@ namespace Asteroids
          if (velocityY < -maxThrustSpeed)
             velocityY = -maxThrustSpeed;
 
-         PlaySound("THRUST.WAV");
+         PlaySound("thrust.wav");
       }
 
       public void RotateLeft()

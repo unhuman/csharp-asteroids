@@ -11,11 +11,10 @@ namespace Asteroids
 
 	public abstract class CommonOps
 	{
-      static readonly string SOUND_DIR = Path.Combine("Sounds", "");
-      public const int iMaxX = 10000;
-      public const int iMaxY = 7500;
-      public const double FPS = 60;
-      public static Random rndGen = new Random();      
+	  public const int iMaxX = 10000;
+	  public const int iMaxY = 7500;
+	  public const double FPS = 60;
+	  public static Random rndGen = new Random();
       private static List<string> alSounds;
       private static Dictionary<string, Sound> soundCache = new();
 
@@ -37,7 +36,8 @@ namespace Asteroids
       {
          if (!soundCache.TryGetValue(fileName, out Sound sound))
          {
-            sound = Raylib.LoadSound(SOUND_DIR + fileName);
+            string soundPath = Path.Combine("Sounds", fileName);
+            sound = Raylib.LoadSound(soundPath);
             soundCache[fileName] = sound;
          }
          return sound;

@@ -75,7 +75,7 @@ namespace Asteroids
                if (bullet.Available())
                {
                   bullet.Shoot(ship.GetCurrLoc(), ship.GetRadians(), ship.GetVelocityX(), ship.GetVelocityY());
-                  PlaySound("Fire.WAV");
+                  PlaySound("fire.wav");
                   return;
                }
             }
@@ -102,9 +102,9 @@ namespace Asteroids
       private void ExplodeShip()
       {
          Point ptCheck = new Point(0);
-         PlaySound("EXPLODE1.WAV");
-         PlaySound("EXPLODE2.WAV");
-         PlaySound("EXPLODE3.WAV");
+         PlaySound("explode1.wav");
+         PlaySound("explode2.wav");
+         PlaySound("explode3.wav");
          foreach (Point ptExp in ship.pointsTransformed)
          {
             ship.Explode();
