@@ -79,16 +79,16 @@ namespace Asteroids
                {
                   case Asteroid.ASTEROID_SIZE.DNE:
                      pointValue = 250; // destroyed small - MEDIUM 100 pts
-                     PlaySound("EXPLODE3.WAV");
+                     PlaySound("explode3.wav");
                      asteroids.RemoveAt(i);
                      break;
                   case Asteroid.ASTEROID_SIZE.SMALL:
                      pointValue = 100; // destroyed large - MEDIUM 100 pts
-                     PlaySound("EXPLODE2.WAV");
+                     PlaySound("explode2.wav");
                      break;
                   case Asteroid.ASTEROID_SIZE.MEDIUM:
                      pointValue = 50; // destroyed large - 50 pts
-                     PlaySound("EXPLODE1.WAV");
+                     PlaySound("explode1.wav");
                      break;
                }
                // Add a new asteroid if it wasn't small

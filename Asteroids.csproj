@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Raylib-cs" Version="*" />
+    <PackageReference Include="System.Resources.Extensions" Version="10.0.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,11 +19,14 @@
     </Content>
   </ItemGroup>
 
-  <!-- Exclude the vb-asteroids subdirectory from compilation -->
+  <!-- Exclude the vb-asteroids and Backup subdirectories from compilation -->
   <ItemGroup>
     <Compile Remove="vb-asteroids\**" />
+    <Compile Remove="Backup\**" />
     <EmbeddedResource Remove="vb-asteroids\**" />
+    <EmbeddedResource Remove="Backup\**" />
     <None Remove="vb-asteroids\**" />
+    <None Remove="Backup\**" />
   </ItemGroup>
 
 </Project>
