@@ -7,14 +7,25 @@ namespace Asteroids
 /// <summary>
 /// Main game class - Raylib-based game loop replacing WinForms.
 /// 
-/// Controls:
+/// Keyboard Controls:
 /// - Thrust: Up Arrow or W
 /// - Rotate Left: Left Arrow or A
 /// - Rotate Right: Right Arrow or D
 /// - Hyperspace: Down Arrow
-/// - Shoot: Space
+/// - Shoot: Space or Left Shift
 /// - Pause: P
 /// - Exit: Escape
+/// 
+/// Gamepad Controls (if available):
+/// - Rotate Left: D-Pad Left or Left Stick Left
+/// - Rotate Right: D-Pad Right or Left Stick Right
+/// - Thrust: Left Trigger
+/// - Hyperspace: Menu Button Right
+/// - Shoot: Face Button Down
+/// - Pause: Menu Button Left
+/// 
+/// Note: Use WASD / Left Shift or gamepad input to avoid keyboard ghosting issues
+/// with certain key combinations on some keyboards.
 /// </summary>
 public class frmAsteroids
 {
@@ -98,18 +109,20 @@ static void Main()
          }
          else if (gameStatus == Modes.GAME)
          {
-            // Support both arrow keys and WASD for better key rollover
-            bLeftPressed = Raylib.IsKeyDown(KeyboardKey.Left) || Raylib.IsKeyDown(KeyboardKey.A);
-            bRightPressed = Raylib.IsKeyDown(KeyboardKey.Right) || Raylib.IsKeyDown(KeyboardKey.D);
-            bUpPressed = Raylib.IsKeyDown(KeyboardKey.Up) || Raylib.IsKeyDown(KeyboardKey.W);
+            // Get input from keyboard and/or gamepad
+            InputManager.InputState input = InputManager.GetInput();
 
-            if (Raylib.IsKeyPressed(KeyboardKey.Down))
+            bLeftPressed = input.RotateLeft;
+            bRightPressed = input.RotateRight;
+            bUpPressed = input.Thrust;
+
+            if (input.Hyperspace)
                currGame.Hyperspace();
 
-            if (Raylib.IsKeyPressed(KeyboardKey.Space))
+            if (input.Shoot)
                currGame.Shoot();
 
-            if (Raylib.IsKeyPressed(KeyboardKey.P))
+            if (input.Pause)
                currGame.Pause();
          }
       }
