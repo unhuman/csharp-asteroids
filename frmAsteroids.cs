@@ -6,6 +6,15 @@ namespace Asteroids
 {
 /// <summary>
 /// Main game class - Raylib-based game loop replacing WinForms.
+/// 
+/// Controls:
+/// - Thrust: Up Arrow or W
+/// - Rotate Left: Left Arrow or A
+/// - Rotate Right: Right Arrow or D
+/// - Hyperspace: Down Arrow
+/// - Shoot: Space
+/// - Pause: P
+/// - Exit: Escape
 /// </summary>
 public class frmAsteroids
 {
@@ -89,9 +98,10 @@ static void Main()
          }
          else if (gameStatus == Modes.GAME)
          {
-            bLeftPressed = Raylib.IsKeyDown(KeyboardKey.Left);
-            bRightPressed = Raylib.IsKeyDown(KeyboardKey.Right);
-            bUpPressed = Raylib.IsKeyDown(KeyboardKey.Up);
+            // Support both arrow keys and WASD for better key rollover
+            bLeftPressed = Raylib.IsKeyDown(KeyboardKey.Left) || Raylib.IsKeyDown(KeyboardKey.A);
+            bRightPressed = Raylib.IsKeyDown(KeyboardKey.Right) || Raylib.IsKeyDown(KeyboardKey.D);
+            bUpPressed = Raylib.IsKeyDown(KeyboardKey.Up) || Raylib.IsKeyDown(KeyboardKey.W);
 
             if (Raylib.IsKeyPressed(KeyboardKey.Down))
                currGame.Hyperspace();

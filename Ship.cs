@@ -100,7 +100,7 @@ namespace Asteroids
          // Only play thrust sound when transitioning from not thrusting to thrusting
          if (!bPreviousThrustState)
          {
-            PlaySound("thrust.wav");
+            PlaySound("thrust.wav", true);
          }
          bPreviousThrustState = true;
       }

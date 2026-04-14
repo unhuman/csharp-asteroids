@@ -15,13 +15,13 @@ namespace Asteroids
 	  public const int iMaxY = 7500;
 	  public const double FPS = 60;
 	  public static Random rndGen = new Random();
-      private static List<string> alSounds;
-      private static Dictionary<string, Sound> soundCache = new();
+	  private static Dictionary<string, bool> alSounds = new();
+	  private static Dictionary<string, Sound> soundCache = new();
 
       static public void InitSound()
       {
          Raylib.InitAudioDevice();
-         alSounds = new List<string>();
+         alSounds = new Dictionary<string, bool>();
       }
 
       static public void CloseSound()
@@ -45,33 +45,33 @@ namespace Asteroids
 
       static public void PlayQueuedSounds()
       {
-         List<string> alCopy;
+         Dictionary<string, bool> alCopy;
 
          // Copy the sound list - so we can release the lock
          lock(alSounds)
          {            
-            alCopy = new List<string>(alSounds);
+            alCopy = new Dictionary<string, bool>(alSounds);
             alSounds.Clear();
          }
          // Play all the sounds - only play if not already playing
-         foreach(string sSoundFile in alCopy)
+         foreach(var kvp in alCopy)
          {
-            Sound sound = GetOrLoadSound(sSoundFile);
-            // Check if sound is still playing before restarting it
-            if (!Raylib.IsSoundPlaying(sound))
+            Sound sound = GetOrLoadSound(kvp.Key);
+            bool singlePlay = kvp.Value;
+            if (!singlePlay || !Raylib.IsSoundPlaying(sound))
             {
                Raylib.PlaySound(sound);
             }
          }
       }
 
-      static public void PlaySound(string sSoundFile)
+      static public void PlaySound(string sSoundFile, bool singlePlay = false)
       {
          // add sounds under lock
          lock(alSounds)
          {
-            if (!alSounds.Contains(sSoundFile))
-               alSounds.Add(sSoundFile);
+            if (!alSounds.ContainsKey(sSoundFile))
+               alSounds[sSoundFile] = singlePlay;
          }
       }
 	}
