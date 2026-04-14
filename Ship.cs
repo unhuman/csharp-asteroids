@@ -15,11 +15,13 @@ namespace Asteroids
       const double ROTATE_SPEED = 12000/FPS;
       int iPointThrust1;
       int iPointThrust2;
-      bool bThrustOn;      
+      bool bThrustOn;
+      bool bPreviousThrustState;
 
       public Ship() : base(new Point(iMaxX/2, iMaxY/2))
       {
          bThrustOn = false;
+         bPreviousThrustState = false;
          state = SHIP_STATE.WAITING;
       }
 
@@ -55,6 +57,7 @@ namespace Asteroids
       {
          state = SHIP_STATE.EXPLODING;
          velocityX = velocityY = 0;
+         bPreviousThrustState = false;
       }
       public bool IsAlive()
       {
@@ -64,6 +67,7 @@ namespace Asteroids
       public void DecayThrust()
       {
          bThrustOn = false;
+         bPreviousThrustState = false;
 
          velocityX = velocityX * (1 - 1/FPS);
          velocityY = velocityY * (1 - 1/FPS);
@@ -93,7 +97,12 @@ namespace Asteroids
          if (velocityY < -maxThrustSpeed)
             velocityY = -maxThrustSpeed;
 
-         PlaySound("thrust.wav");
+         // Only play thrust sound when transitioning from not thrusting to thrusting
+         if (!bPreviousThrustState)
+         {
+            PlaySound("thrust.wav");
+         }
+         bPreviousThrustState = true;
       }
 
       public void RotateLeft()

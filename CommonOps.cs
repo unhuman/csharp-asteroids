@@ -53,11 +53,15 @@ namespace Asteroids
             alCopy = new List<string>(alSounds);
             alSounds.Clear();
          }
-         // Play all the sounds
+         // Play all the sounds - only play if not already playing
          foreach(string sSoundFile in alCopy)
          {
             Sound sound = GetOrLoadSound(sSoundFile);
-            Raylib.PlaySound(sound);
+            // Check if sound is still playing before restarting it
+            if (!Raylib.IsSoundPlaying(sound))
+            {
+               Raylib.PlaySound(sound);
+            }
          }
       }
 
